@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/header";
+import Sidebar from "@/components/sidebar";
+import NextTopLoader from "nextjs-toploader";
+import Providers from "@/providers/wallet-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +32,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>
+          <div className="min-h-screen w-screen flex flex-col">
+            <NextTopLoader
+              color="rgba(6, 182, 212, 0.5)"
+              showSpinner={false}
+              zIndex={10001}
+              height={3}
+            />
+            <Header />
+            <div className="flex h-[calc(100vh-76px)] w-full">
+              <Sidebar />
+              {children}
+            </div>
+          </div>
+          <Toaster position="bottom-right" />
+        </Providers>
       </body>
     </html>
   );
