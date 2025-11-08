@@ -1,15 +1,17 @@
-import { uploadMultipleToLighthouse } from "@/actions/upload-to-lighthouse";
+import { uploadToLighthouse } from "@/actions/upload-to-lighthouse";
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { files } = await request.json();
-    if (!files || files.length <= 1) {
+    const formData = await req.formData();
+    const file = formData.get("file") as File;
+    if (!file) {
       return Response.json(
-        { success: false, error: "No files provided" },
+        { success: false, error: "No file provided" },
         { status: 400 }
       );
     }
-    const ipfsHash = await uploadMultipleToLighthouse(files);
+    const ipfsHash = await uploadToLighthouse(file);
+
     return Response.json({ success: true, ipfsHash }, { status: 200 });
   } catch (error) {
     console.error(error);
