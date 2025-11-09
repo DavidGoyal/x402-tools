@@ -15,7 +15,6 @@ export const uploadToLighthouse = async (file: File) => {
     process.env.LIGHTHOUSE_API_KEY!
   );
 
-  console.log(uploadResponse);
   return uploadResponse.data.Hash;
 };
 
@@ -25,7 +24,6 @@ export const uploadMultipleToLighthouse = async (files: File[]) => {
   try {
     // Create a temporary directory
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "lighthouse-upload-"));
-    console.log(`Created temporary directory: ${tempDir}`);
 
     // Write all files to the temporary directory
     const filePaths: string[] = [];
@@ -36,24 +34,12 @@ export const uploadMultipleToLighthouse = async (files: File[]) => {
 
       fs.writeFileSync(filePath, buffer);
       filePaths.push(filePath);
-      console.log(`Saved file: ${file.name} to ${filePath}`);
     }
 
     // Upload the entire directory using Lighthouse
     const uploadResponse = await lighthouse.upload(
       tempDir,
       process.env.LIGHTHOUSE_API_KEY!
-    );
-
-    console.log(
-      `Directory upload completed. Hash: ${uploadResponse.data.Hash}`
-    );
-    console.log(
-      `Directory contains ${files.length} files:`,
-      files.map((f) => f.name)
-    );
-    console.log(
-      `Access files at: https://gateway.lighthouse.storage/ipfs/${uploadResponse.data.Hash}`
     );
 
     return uploadResponse.data.Hash;
@@ -69,7 +55,6 @@ export const uploadMultipleToLighthouse = async (files: File[]) => {
     if (tempDir && fs.existsSync(tempDir)) {
       try {
         fs.rmSync(tempDir, { recursive: true, force: true });
-        console.log(`Cleaned up temporary directory: ${tempDir}`);
       } catch (cleanupError) {
         console.warn(`Failed to clean up temporary directory: ${cleanupError}`);
       }

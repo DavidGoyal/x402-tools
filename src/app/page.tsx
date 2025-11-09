@@ -23,11 +23,13 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-cyan-300 text-lg sm:text-xl max-w-2xl mx-auto mb-2">
-              Powered by <span className="text-cyan-400 font-semibold">x402</span> Protocol
+              Powered by{" "}
+              <span className="text-cyan-400 font-semibold">x402</span> Protocol
             </p>
             <p className="text-cyan-300 text-base sm:text-lg max-w-2xl mx-auto mb-6 sm:mb-8">
-              Access premium Web3 tools and services with seamless micropayments. 
-              Pay only for what you use, powered by blockchain payments.
+              Access premium Web3 tools and services with seamless
+              micropayments. Pay only for what you use, powered by blockchain
+              payments.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -47,10 +49,12 @@ export default function Home() {
               <div className="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center mb-4">
                 <HiCurrencyDollar className="w-6 h-6 text-cyan-400" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">x402 Protocol</h3>
+              <h3 className="text-xl font-bold text-white mb-2">
+                x402 Protocol
+              </h3>
               <p className="text-cyan-300 text-sm sm:text-base">
-                Micropayment-powered API access. Pay per use with Solana-based transactions. 
-                No subscriptions, no commitments.
+                Micropayment-powered API access. Pay per use with Solana-based
+                transactions. No subscriptions, no commitments.
               </p>
             </div>
 
@@ -62,9 +66,12 @@ export default function Home() {
               <div className="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-600/30 transition-colors">
                 <HiCloudArrowUp className="w-6 h-6 text-cyan-400" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">IPFS Storage</h3>
+              <h3 className="text-xl font-bold text-white mb-2">
+                IPFS Storage
+              </h3>
               <p className="text-cyan-300 text-sm sm:text-base">
-                Upload files to decentralized IPFS storage. Secure, permanent, and accessible from anywhere.
+                Upload files to decentralized IPFS storage. Secure, permanent,
+                and accessible from anywhere.
               </p>
             </Link>
 
@@ -73,9 +80,12 @@ export default function Home() {
               <div className="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center mb-4">
                 <HiBolt className="w-6 h-6 text-cyan-400" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Fast & Reliable</h3>
+              <h3 className="text-xl font-bold text-white mb-2">
+                Fast & Reliable
+              </h3>
               <p className="text-cyan-300 text-sm sm:text-base">
-                Built on Solana blockchain for instant transactions. Access tools instantly with wallet-based authentication.
+                Built on Solana blockchain for instant transactions. Access
+                tools instantly with wallet-based authentication.
               </p>
             </div>
 
@@ -84,10 +94,12 @@ export default function Home() {
               <div className="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center mb-4">
                 <HiLockClosed className="w-6 h-6 text-cyan-400" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Secure & Private</h3>
+              <h3 className="text-xl font-bold text-white mb-2">
+                Secure & Private
+              </h3>
               <p className="text-cyan-300 text-sm sm:text-base">
-                Your data stays private. Transactions are secured by blockchain technology. 
-                No central authority, no data harvesting.
+                Your data stays private. Transactions are secured by blockchain
+                technology. No central authority, no data harvesting.
               </p>
             </div>
 
@@ -96,10 +108,12 @@ export default function Home() {
               <div className="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center mb-4">
                 <HiGlobeAlt className="w-6 h-6 text-cyan-400" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Decentralized</h3>
+              <h3 className="text-xl font-bold text-white mb-2">
+                Decentralized
+              </h3>
               <p className="text-cyan-300 text-sm sm:text-base">
-                No central servers. Built on distributed networks ensuring censorship resistance 
-                and true ownership of your data.
+                No central servers. Built on distributed networks ensuring
+                censorship resistance and true ownership of your data.
               </p>
             </div>
 
@@ -108,9 +122,12 @@ export default function Home() {
               <div className="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center mb-4">
                 <span className="text-2xl">🚀</span>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">More Tools Coming</h3>
+              <h3 className="text-xl font-bold text-white mb-2">
+                More Tools Coming
+              </h3>
               <p className="text-cyan-300 text-sm sm:text-base">
-                We're constantly expanding our toolkit. More Web3 utilities powered by x402 protocol coming soon.
+                We&apos; re constantly expanding our toolkit. More Web3
+                utilities powered by x402 protocol coming soon.
               </p>
             </div>
           </div>
@@ -127,27 +144,36 @@ export default function Home() {
                 <div className="w-16 h-16 bg-cyan-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-cyan-400">1</span>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Connect Wallet</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Connect Wallet
+                </h3>
                 <p className="text-cyan-300 text-sm">
-                  Connect your Solana wallet to authenticate and enable micropayments
+                  Connect your Solana wallet to authenticate and enable
+                  micropayments
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-cyan-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-cyan-400">2</span>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Use Tools</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Use Tools
+                </h3>
                 <p className="text-cyan-300 text-sm">
-                  Access any tool from our platform. Pay automatically via x402 protocol
+                  Access any tool from our platform. Pay automatically via x402
+                  protocol
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-cyan-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-cyan-400">3</span>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Pay Per Use</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Pay Per Use
+                </h3>
                 <p className="text-cyan-300 text-sm">
-                  Only pay for what you use. No subscriptions, no hidden fees. Simple micropayments.
+                  Only pay for what you use. No subscriptions, no hidden fees.
+                  Simple micropayments.
                 </p>
               </div>
             </div>
