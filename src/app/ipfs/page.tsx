@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
   createTransferCheckedInstruction,
   getAssociatedTokenAddress,
   getMint,
@@ -19,15 +21,15 @@ import {
 import { AxiosError } from "axios";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { toast } from "sonner";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { toast } from "sonner";
 
 export default function Home() {
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [ipfsHash, setIpfsHash] = useState<string>("");
   const { connection } = useConnection();
-  const { publicKey, signTransaction } = useWallet();
+  const { publicKey, signTransaction, sendTransaction } = useWallet();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +111,7 @@ export default function Home() {
         // The facilitator REQUIRES ComputeBudget instructions in positions 0 and 1
         instructions.push(
           ComputeBudgetProgram.setComputeUnitLimit({
-            units: 40_000, // Sufficient for SPL token transfer + ATA creation
+            units: 27_044, // Sufficient for SPL token transfer + ATA creation
           })
         );
 
@@ -139,7 +141,7 @@ export default function Home() {
         const mint = await getMint(
           connection,
           mintPubkey,
-          undefined,
+          "confirmed",
           programId
         );
 
@@ -148,13 +150,15 @@ export default function Home() {
           mintPubkey,
           publicKey,
           false,
-          programId
+          programId,
+          ASSOCIATED_TOKEN_PROGRAM_ID
         );
         const destinationAta = await getAssociatedTokenAddress(
           mintPubkey,
           destination,
           false,
-          programId
+          programId,
+          ASSOCIATED_TOKEN_PROGRAM_ID
         );
 
         // Check if source ATA exists (user must already have token account)
@@ -174,28 +178,15 @@ export default function Home() {
           "confirmed"
         );
         if (!destAtaInfo) {
-          const ASSOCIATED_TOKEN_PROGRAM_ID = new PublicKey(
-            "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+          instructions.push(
+            createAssociatedTokenAccountInstruction(
+              feePayerPubkey,
+              destinationAta,
+              destination,
+              mintPubkey,
+              programId
+            )
           );
-
-          const createAtaInstruction = new TransactionInstruction({
-            keys: [
-              { pubkey: feePayerPubkey, isSigner: true, isWritable: true },
-              { pubkey: destinationAta, isSigner: false, isWritable: true },
-              { pubkey: destination, isSigner: false, isWritable: false },
-              { pubkey: mintPubkey, isSigner: false, isWritable: false },
-              {
-                pubkey: SystemProgram.programId,
-                isSigner: false,
-                isWritable: false,
-              },
-              { pubkey: programId, isSigner: false, isWritable: false },
-            ],
-            programId: ASSOCIATED_TOKEN_PROGRAM_ID,
-            data: Buffer.from([0]), // CreateATA discriminator
-          });
-
-          instructions.push(createAtaInstruction);
         }
 
         // TransferChecked instruction
@@ -213,8 +204,6 @@ export default function Home() {
             programId
           )
         );
-
-        console.log("instructions", instructions);
 
         // Get recent blockhash
         const { blockhash } = await connection.getLatestBlockhash("confirmed");
@@ -596,7 +585,7 @@ export default function Home() {
                     key={index}
                   >
                     <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-cyan-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-cyan-600 rounded-lg flex items-center justify-center shrink-0">
                         <span className="text-lg sm:text-xl">
                           {file.type.includes("pdf") ? "📄" : "🖼️"}
                         </span>
@@ -612,7 +601,7 @@ export default function Home() {
                     </div>
                     <button
                       onClick={() => handleClear(index)}
-                      className="text-cyan-400 hover:text-red-400 transition-colors cursor-pointer flex-shrink-0 ml-2 text-lg sm:text-xl"
+                      className="text-cyan-400 hover:text-red-400 transition-colors cursor-pointer shrink-0 ml-2 text-lg sm:text-xl"
                       aria-label="Remove file"
                     >
                       ✕
@@ -671,7 +660,7 @@ export default function Home() {
           {!loading && ipfsHash && (
             <div className="bg-[#1a1a1a] rounded-xl p-4 sm:p-6 border border-green-700/50 shadow-xl">
               <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center shrink-0">
                   <span className="text-lg sm:text-xl">✓</span>
                 </div>
                 <h3 className="text-base sm:text-lg font-semibold text-green-200">
