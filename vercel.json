@@ -1,8 +1,0 @@
-{
-  "functions": {
-    "src/app/api/v1/uploadToIpfs/**": {
-      "memory": 3008,
-      "maxDuration": 60
-    }
-  }
-}

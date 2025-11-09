@@ -1,8 +1,8 @@
 "use server";
 
 import lighthouse from "@lighthouse-web3/sdk";
-import fs from "fs";
-import path from "path";
+import axios from "axios";
+import FormData from "form-data";
 
 export const uploadToLighthouse = async (file: File) => {
   // Convert File object to ArrayBuffer for server-side upload
@@ -18,33 +18,36 @@ export const uploadToLighthouse = async (file: File) => {
 };
 
 export const uploadMultipleToLighthouse = async (files: File[]) => {
-  let tempDir: string | null = null;
-
   try {
-    // Use /tmp directory which is available in serverless environments
-    const timestamp = Date.now();
-    const randomStr = Math.random().toString(36).substring(7);
-    tempDir = path.join("/tmp", `lighthouse-upload-${timestamp}-${randomStr}`);
+    const formData = new FormData();
 
-    // Create the temporary directory
-    fs.mkdirSync(tempDir, { recursive: true });
-
-    // Write all files to the temporary directory
+    // Convert each File to Buffer and append to FormData
     for (const file of files) {
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      const filePath = path.join(tempDir, file.name);
 
-      fs.writeFileSync(filePath, buffer);
+      // Append buffer with filename and content type
+      formData.append("file", buffer, {
+        filename: file.name,
+        contentType: file.type || "application/octet-stream",
+      });
     }
 
-    // Upload the entire directory using Lighthouse - this returns ONE hash for all files
-    const uploadResponse = await lighthouse.upload(
-      tempDir,
-      process.env.LIGHTHOUSE_API_KEY!
+    // Upload using the direct Lighthouse API endpoint with wrapWithDirectory parameter
+    const response = await axios.post(
+      "https://upload.lighthouse.storage/api/v0/add?wrap-with-directory=true",
+      formData,
+      {
+        headers: {
+          ...formData.getHeaders(),
+          Authorization: `Bearer ${process.env.LIGHTHOUSE_API_KEY}`,
+        },
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
+      }
     );
 
-    return uploadResponse.data.Hash;
+    return response.data.Hash;
   } catch (error) {
     console.error("Error in multiple upload:", error);
     throw new Error(
@@ -52,14 +55,5 @@ export const uploadMultipleToLighthouse = async (files: File[]) => {
         error instanceof Error ? error.message : "Unknown error"
       }`
     );
-  } finally {
-    // Clean up the temporary directory
-    if (tempDir && fs.existsSync(tempDir)) {
-      try {
-        fs.rmSync(tempDir, { recursive: true, force: true });
-      } catch (cleanupError) {
-        console.warn(`Failed to clean up temporary directory: ${cleanupError}`);
-      }
-    }
   }
 };
