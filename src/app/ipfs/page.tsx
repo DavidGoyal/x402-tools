@@ -29,7 +29,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [ipfsHash, setIpfsHash] = useState<string>("");
   const { connection } = useConnection();
-  const { publicKey, signTransaction, sendTransaction } = useWallet();
+  const { publicKey, signTransaction } = useWallet();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
